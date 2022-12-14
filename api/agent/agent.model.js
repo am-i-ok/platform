@@ -7,6 +7,10 @@ const agentSchema = new mongoose.Schema({
     enum: ["online", "offline"],
     default: "online",
   },
+  icon: {
+    type: String,
+    default: "/media/flags/spain.svg",
+  },
   location: { type: String, default: "unknown" },
   createdAt: Date,
   updatedAt: Date,
