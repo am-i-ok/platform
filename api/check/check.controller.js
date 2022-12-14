@@ -1,3 +1,4 @@
+const axios = require("axios");
 const CheckLogic = require("./check.logic");
 
 class CheckController {
@@ -40,8 +41,17 @@ class CheckController {
 
   static async report(req, res, next) {
     try {
-      const { status, checkName } = req.body;
-      const agent = await CheckLogic.getOne(checkName);
+      const { status, name } = req.body;
+      const agent = await CheckLogic.getOne(name);
+      if (
+        agent.failureWebhook &&
+        agent.status !== "unhealthy" &&
+        status === "unhealthy"
+      ) {
+        await axios.post(agent.failureWebhook, {
+          text: `Check: *${agent.name}* has become *unhealthy*`,
+        });
+      }
       agent.results.push({
         date: new Date(),
         status,

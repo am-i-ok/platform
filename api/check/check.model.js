@@ -6,6 +6,7 @@ const checkSchema = new mongoose.Schema(
   {
     name: String,
     endpoint: String,
+    failureWebhook: String,
     agents: [
       {
         type: Schema.Types.ObjectId,
