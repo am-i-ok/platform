@@ -5,8 +5,9 @@ const agentSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["online", "offline"],
-    default: "offline",
+    default: "online",
   },
+  location: { type: String, default: "unknown" },
   createdAt: Date,
   updatedAt: Date,
 });
