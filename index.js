@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const agentRouter = require("./api/agent");
+const checkRouter = require("./api/check");
 const { sendErrorResponse } = require("./server/error-handling/error-handler");
 
 const app = express();
@@ -40,6 +41,7 @@ app.use("/api/verify_token", (request, response) => {
 });
 
 app.use("/api/agent", agentRouter);
+app.use("/api/check", checkRouter);
 
 app.use(sendErrorResponse);
 
