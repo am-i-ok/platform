@@ -16,6 +16,7 @@ const checkSchema = new mongoose.Schema({
       ref: "Agent",
     },
   ],
+  interval: String,
   createdAt: Date,
   updatedAt: Date,
 });
