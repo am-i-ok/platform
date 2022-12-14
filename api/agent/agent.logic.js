@@ -18,11 +18,15 @@ class AgentLogic {
     return agent.save();
   }
 
-  static async update(name, { fieldToUpdate }) {
-    const agent = await AgentLogic.getOne(name);
-    if (agent) {
-      agent.fieldToUpdate = fieldToUpdate;
-      return agent.save();
+  static async update(name, fieldToUpdate) {
+    try {
+      const agent = await AgentLogic.getOne(name);
+      if (agent) {
+        Object.assign(agent, fieldToUpdate);
+        return agent.save();
+      }
+    } catch {
+      return this.create({ name, ...fieldToUpdate });
     }
   }
 
