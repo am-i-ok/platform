@@ -8,5 +8,6 @@ router.get("/:name", CheckController.getOne);
 router.post("/", CheckController.create);
 router.put("/:name", CheckController.update);
 router.delete("/:name", CheckController.delete);
+router.post("/report", CheckController.report);
 
 module.exports = router;

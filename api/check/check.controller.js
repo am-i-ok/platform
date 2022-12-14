@@ -38,6 +38,21 @@ class CheckController {
     }
   }
 
+  static async report(req, res, next) {
+    try {
+      const { status, checkName } = req.body;
+      const agent = await CheckLogic.getOne(checkName);
+      agent.results.push({
+        date: new Date(),
+        status,
+      });
+      await agent.save();
+      res.json({});
+    } catch (err) {
+      return next(err);
+    }
+  }
+
   static async delete(req, res, next) {
     try {
       await CheckLogic.delete(req.params.name);

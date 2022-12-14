@@ -2,23 +2,41 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
-const checkSchema = new mongoose.Schema({
-  name: String,
-  status: {
-    type: String,
-    enum: ["healthy", "unknown", "unhealthy"],
-    default: "unknown",
+const checkSchema = new mongoose.Schema(
+  {
+    name: String,
+    endpoint: String,
+    agents: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Agent",
+      },
+    ],
+    interval: String,
+    createdAt: Date,
+    updatedAt: Date,
+    results: [
+      {
+        date: Date,
+        status: {
+          type: String,
+          enum: ["healthy", "unknown", "unhealthy"],
+          default: "unknown",
+        },
+      },
+    ],
   },
-  endpoint: String,
-  agents: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Agent",
-    },
-  ],
-  interval: String,
-  createdAt: Date,
-  updatedAt: Date,
+  {
+    toJSON: { virtuals: true },
+  }
+);
+
+checkSchema.virtual("status").get(function status() {
+  if (!this.results.length) {
+    return "unknown";
+  }
+
+  return this.results[this.results.length - 1].status;
 });
 
 checkSchema.index({ name: 1 }, { unique: true }); // schema level
