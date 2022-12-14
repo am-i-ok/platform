@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
@@ -38,6 +39,12 @@ checkSchema.virtual("status").get(function status() {
   }
 
   return this.results[this.results.length - 1].status;
+});
+
+checkSchema.virtual("successRate").get(function status() {
+  const succeeded = _.filter(this.results, (r) => r.status === "healthy");
+
+  return (succeeded.length * 100) / this.results.length;
 });
 
 checkSchema.index({ name: 1 }, { unique: true }); // schema level
