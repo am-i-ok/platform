@@ -44,7 +44,7 @@ checkSchema.virtual("status").get(function status() {
 checkSchema.virtual("successRate").get(function status() {
   const succeeded = _.filter(this.results, (r) => r.status === "healthy");
 
-  return (succeeded.length * 100) / this.results.length;
+  return Math.ceil((succeeded.length * 100) / this.results.length);
 });
 
 checkSchema.index({ name: 1 }, { unique: true }); // schema level
