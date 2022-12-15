@@ -2,7 +2,9 @@ const Check = require("./check.model");
 
 class CheckLogic {
   static async getAll(filter) {
-    return Check.find(filter, undefined, { sort: { createdAt: -1 } });
+    return Check.find(filter, undefined, { sort: { createdAt: -1 } }).populate(
+      "agents"
+    );
   }
 
   static async getOne(name) {
