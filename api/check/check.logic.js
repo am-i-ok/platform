@@ -2,15 +2,13 @@ const Check = require("./check.model");
 
 class CheckLogic {
   static async getAll(filter) {
-    return Check.find(filter, undefined, { sort: { createdAt: -1 } }).populate(
-      "agents"
-    );
+    return Check.find(filter, undefined, { sort: { createdAt: -1 } });
   }
 
   static async getOne(name) {
     const res = await Check.findOne({ name });
     if (!res) {
-      throw new Error(`agent: ${name} does not exist`);
+      throw new Error(`check: ${name} does not exist`);
     }
     return res;
   }
